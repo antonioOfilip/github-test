@@ -1,0 +1,16 @@
+name: First Workflow
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print greeting
+        run: echo "Hi, filthy fuck"
+      - name: Print goodbye
+        run: echo "Valea"
+
