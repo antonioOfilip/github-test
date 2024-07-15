@@ -1,31 +1,32 @@
-name: Second Workflow
-on:
-  workflow_dispatch:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+name: Deploy Project
+on: [push, workflow_dispatch]
 jobs:
-  setup-job:
-    runs-on: ubuntu_latest
+  test:
+    runs-on: ubuntu-latest
     steps:
-      - name: 'Retrieve code'
-        uses: actions/checkout@v4.1.7
+      - name: Get code
+        uses: actions/checkout@v3
       - name: Install NodeJS
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
       - name: Install dependencies
-        run: npm ci  #pip install -r requirements.txt
+        run: npm ci
       - name: Run tests
         run: npm test
   deploy:
-    needs: [ setup-job ]
+    needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: 'Retrieve code'
-        uses: actions/checkout@v4.1.7
+      - name: Get code
+        uses: actions/checkout@v3
       - name: Install NodeJS
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
       - name: Build project
         run: npm run build
       - name: Deploy
-        run: echo "Deploying..."
+        run: echo "Deploying ..."
